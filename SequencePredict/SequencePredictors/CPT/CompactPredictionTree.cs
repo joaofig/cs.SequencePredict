@@ -1,0 +1,37 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace SequencePredictors.CPT
+{
+    public class CompactPredictionTree<T> where T : IEquatable<T>
+    {
+        private PredictionTree<T>   tree    = null;
+        private InvertedIndex<T>    index   = new InvertedIndex<T>();
+        private LookupTable<T>      lookup  = new LookupTable<T>();
+
+        public void Add(Sequence<T> sequence)
+        {
+            PredictionTree<T> lastNode = null;
+
+            if(!sequence.Any())
+                throw new InvalidOperationException("Sequence cannot be empty.");
+
+            if(tree == null)
+            {
+                lastNode = tree = new PredictionTree<T>(sequence.Head, null);
+
+                if(sequence.Tail.Any())
+                    lastNode = tree.Add(sequence.Tail);
+            }
+            else
+            {
+                lastNode = tree.Add(sequence);
+            }
+
+            index.Add(sequence);
+            lookup.Add(sequence.Id, lastNode);
+        }
+    }
+}
