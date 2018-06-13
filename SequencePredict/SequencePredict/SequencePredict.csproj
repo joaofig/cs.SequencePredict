@@ -48,5 +48,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SequencePredictors\SequencePredictors.csproj">
+      <Project>{50893bb7-69f8-4ec9-b17b-b7d1fc3ddac0}</Project>
+      <Name>SequencePredictors</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

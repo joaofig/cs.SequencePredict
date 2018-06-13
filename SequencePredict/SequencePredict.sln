@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SequencePredict", "SequencePredict\SequencePredict.csproj", "{95D98BC7-9459-4EC5-AD15-68F5262F6612}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SequencePredictors", "SequencePredictors\SequencePredictors.csproj", "{09505D71-1BD4-40A3-AD13-518425834BD8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SequencePredictors", "SequencePredictors\SequencePredictors.csproj", "{50893BB7-69F8-4EC9-B17B-B7D1FC3DDAC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{95D98BC7-9459-4EC5-AD15-68F5262F6612}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95D98BC7-9459-4EC5-AD15-68F5262F6612}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95D98BC7-9459-4EC5-AD15-68F5262F6612}.Release|Any CPU.Build.0 = Release|Any CPU
-		{09505D71-1BD4-40A3-AD13-518425834BD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{09505D71-1BD4-40A3-AD13-518425834BD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{09505D71-1BD4-40A3-AD13-518425834BD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{09505D71-1BD4-40A3-AD13-518425834BD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50893BB7-69F8-4EC9-B17B-B7D1FC3DDAC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50893BB7-69F8-4EC9-B17B-B7D1FC3DDAC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50893BB7-69F8-4EC9-B17B-B7D1FC3DDAC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50893BB7-69F8-4EC9-B17B-B7D1FC3DDAC0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

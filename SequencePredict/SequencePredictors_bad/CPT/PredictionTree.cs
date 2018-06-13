@@ -22,11 +22,6 @@ namespace SequencePredictors.CPT
             get { return item; }
         }
 
-        public PredictionTree<T> Parent
-        {
-            get { return parent; }
-        }
-
         public PredictionTree<T> Add(T item)
         {
             var child = new PredictionTree<T>(item, this);

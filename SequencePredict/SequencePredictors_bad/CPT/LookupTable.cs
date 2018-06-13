@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace SequencePredictors.CPT
 {
@@ -20,25 +21,6 @@ namespace SequencePredictors.CPT
         public PredictionTree<T> Get(int sequenceId)
         {
             return lookup[sequenceId];
-        }
-
-        public T[] GetReversedConsequent(int sequenceId, HashSet<T> sequenceTail)
-        {
-            if(lookup.ContainsKey(sequenceId))
-            {
-                
-                List<T> list = new List<T>();
-                for(var node = lookup[sequenceId]; node != null; node = node.Parent)
-                {
-                    if(!sequenceTail.Contains(node.Item))
-                        list.Add(node.Item);
-                    else
-                        break;
-                }
-                return list.ToArray();
-            }
-            else
-                return null;
         }
     }
 }

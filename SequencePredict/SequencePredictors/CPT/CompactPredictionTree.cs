@@ -1,7 +1,7 @@
-﻿using System;
+﻿using MoreLinq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace SequencePredictors.CPT
 {
@@ -32,6 +32,38 @@ namespace SequencePredictors.CPT
 
             index.Add(sequence);
             lookup.Add(sequence.Id, lastNode);
+        }
+
+        public T Predict(IEnumerable<T> source, int tailSize)
+        {
+            T[]                 tail        = source.TakeLast(tailSize).ToArray();
+            HashSet<int>        set         = index.GetIntersection(tail);
+            Dictionary<T,int>   countTable  = new Dictionary<T, int>();
+            HashSet<T>          tailHash    = new HashSet<T>(tail);
+
+            foreach(int id in set)
+            {
+                T[] sequence = lookup.GetReversedConsequent(id, tailHash);
+
+                for(int i = 0; i < sequence.Length; i++)
+                {
+                    if(!countTable.ContainsKey(sequence[i]))
+                        countTable[sequence[i]] = 0;
+                    countTable[sequence[i]] += 1;
+                }
+            }
+
+            T result = default(T);
+            int max = 0;
+            foreach(var key in countTable.Keys)
+            {
+                if(countTable[key] > max)
+                {
+                    result = key;
+                    max = countTable[key];
+                }
+            }
+            return result;
         }
     }
 }
