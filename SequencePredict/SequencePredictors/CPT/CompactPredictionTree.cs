@@ -7,13 +7,21 @@ namespace SequencePredictors.CPT
 {
     public class CompactPredictionTree<T> where T : IEquatable<T>
     {
-        private PredictionTree<T>   tree    = null;
-        private InvertedIndex<T>    index   = new InvertedIndex<T>();
-        private LookupTable<T>      lookup  = new LookupTable<T>();
+        private PredictionTree<T>   tree        = null;
+        private InvertedIndex<T>    index       = new InvertedIndex<T>();
+        private LookupTable<T>      lookup      = new LookupTable<T>();
+        private int                 sampleCount = 0;
+        private int                 splitLength = 0;
 
-        public void Add(Sequence<T> sequence)
+        public CompactPredictionTree(int splitLength = 0)
         {
-            PredictionTree<T> lastNode = null;
+            this.splitLength = splitLength;
+        }
+
+        public void Learn(IEnumerable<T> sample)
+        {
+            Sequence<T>         sequence = new Sequence<T>(++sampleCount, splitLength == 0 ? sample : sample.TakeLast(splitLength));
+            PredictionTree<T>   lastNode = null;
 
             if(!sequence.Any())
                 throw new InvalidOperationException("Sequence cannot be empty.");

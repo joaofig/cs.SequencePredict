@@ -9,7 +9,6 @@ namespace SequencePredictors.CPT
         private PredictionTree<T> parent = null;
         private List<PredictionTree<T>> children = new List<PredictionTree<T>>();
         private readonly T item = default(T);
-        private int support = 0;
 
         public PredictionTree(T item, PredictionTree<T> parent)
         {
