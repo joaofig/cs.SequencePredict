@@ -6,8 +6,8 @@ namespace SequencePredictors.CPT
 {
     public class PredictionTree<T> where T : IEquatable<T>
     {
-        private PredictionTree<T> parent = null;
-        private List<PredictionTree<T>> children = new List<PredictionTree<T>>();
+        private readonly PredictionTree<T> parent = null;
+        private readonly List<PredictionTree<T>> children = new List<PredictionTree<T>>();
         private readonly T item = default(T);
 
         public PredictionTree(T item, PredictionTree<T> parent)

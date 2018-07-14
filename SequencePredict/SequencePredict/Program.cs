@@ -19,7 +19,7 @@ namespace SequencePredict
             cpt.Learn(new int[] {5, 1, 4, 3, 2});
             cpt.Learn(new int[] {5, 7, 1, 4, 2, 3});
 
-            var result = cpt.Predict(new int[] { 1, 4 }, 2);
+            var result = cpt.Predict(new int[] { 1, 2 });
         }
     }
 }

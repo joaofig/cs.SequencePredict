@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CPT\CompactPredictionTree.cs" />
+    <Compile Include="CPT\CountTable.cs" />
     <Compile Include="CPT\InvertedIndex.cs" />
     <Compile Include="CPT\LookupTable.cs" />
     <Compile Include="CPT\PredictionTree.cs" />

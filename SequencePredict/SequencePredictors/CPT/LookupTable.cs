@@ -5,7 +5,7 @@ namespace SequencePredictors.CPT
 {
     public class LookupTable<T> where T : IEquatable<T>
     {
-        private Dictionary<int,PredictionTree<T>> lookup = new Dictionary<int, PredictionTree<T>>();
+        private readonly Dictionary<int,PredictionTree<T>> lookup = new Dictionary<int, PredictionTree<T>>();
 
         public void Add(int sequenceId, PredictionTree<T> node)
         {
@@ -22,23 +22,21 @@ namespace SequencePredictors.CPT
             return lookup[sequenceId];
         }
 
-        public T[] GetReversedConsequent(int sequenceId, HashSet<T> sequenceTail)
+        public T[] GetSequence(int sequenceId)
         {
-            if(lookup.ContainsKey(sequenceId))
+            PredictionTree<T> node = lookup[sequenceId];
+            List<T> list = new List<T>
             {
-                
-                List<T> list = new List<T>();
-                for(var node = lookup[sequenceId]; node != null; node = node.Parent)
-                {
-                    if(!sequenceTail.Contains(node.Item))
-                        list.Add(node.Item);
-                    else
-                        break;
-                }
-                return list.ToArray();
+                node.Item
+            };
+
+            while (node.Parent != null)
+            {
+                node = node.Parent;
+                list.Add(node.Item);
             }
-            else
-                return null;
+            list.Reverse();
+            return list.ToArray();
         }
     }
 }

@@ -7,11 +7,13 @@ namespace SequencePredictors.CPT
 {
     public class CompactPredictionTree<T> where T : IEquatable<T>
     {
-        private PredictionTree<T>   tree        = null;
-        private InvertedIndex<T>    index       = new InvertedIndex<T>();
-        private LookupTable<T>      lookup      = new LookupTable<T>();
-        private int                 sampleCount = 0;
-        private int                 splitLength = 0;
+        private PredictionTree<T>   tree            = null;
+        private InvertedIndex<T>    invertedIndex   = new InvertedIndex<T>();
+        private LookupTable<T>      lookupTable     = new LookupTable<T>();
+        private int                 sampleCount     = 0;
+        private int                 splitLength     = 0;
+        private int                 minRecursion    = 1;
+        private int                 maxRecursion    = 4;
 
         public CompactPredictionTree(int splitLength = 0)
         {
@@ -38,40 +40,54 @@ namespace SequencePredictors.CPT
                 lastNode = tree.Add(sequence);
             }
 
-            index.Add(sequence);
-            lookup.Add(sequence.Id, lastNode);
+            invertedIndex.Add(sequence);
+            lookupTable.Add(sequence.Id, lastNode);
         }
 
-        public T Predict(IEnumerable<T> source, int tailSize)
+        public T[] Predict(IEnumerable<T> target)
         {
-            T[]                 tail        = source.TakeLast(tailSize).ToArray();
-            HashSet<int>        set         = index.GetIntersection(tail);
-            Dictionary<T,int>   countTable  = new Dictionary<T, int>();
-            HashSet<T>          tailHash    = new HashSet<T>(tail);
-
-            foreach(int id in set)
+            if (target == null)
             {
-                T[] sequence = lookup.GetReversedConsequent(id, tailHash);
-
-                for(int i = 0; i < sequence.Length; i++)
-                {
-                    if(!countTable.ContainsKey(sequence[i]))
-                        countTable[sequence[i]] = 0;
-                    countTable[sequence[i]] += 1;
-                }
+                throw new ArgumentNullException(nameof(target));
             }
 
-            T result = default(T);
-            int max = 0;
-            foreach(var key in countTable.Keys)
+            T[] knownItems  = target.Where(x => invertedIndex.ContainsKey(x)).ToArray();        // Keep only the items that were seen by the inverted index
+            T[] result      = new T[0];
+            T[] itemArray   = knownItems;
+            int initialSize = knownItems.Length;
+
+            for(int i = minRecursion; i <= maxRecursion && result.Length == 0; i++)
             {
-                if(countTable[key] > max)
-                {
-                    result = key;
-                    max = countTable[key];
-                }
+                CountTable<T> countTable = new CountTable<T>(invertedIndex, lookupTable);
+
+                int minSize = itemArray.Length - 1;
+
+                RecursiveDivider(itemArray, minSize, countTable, initialSize);
+
+                result = countTable.GetBestSequence();
             }
             return result;
+        }
+
+        //
+
+        private void RecursiveDivider(T[] itemArray, int minSize, CountTable<T> countTable, int initialArraySize)
+        {
+            int size = itemArray.Length;
+
+            if(size > minSize)
+            {
+                double weight = (double)size / initialArraySize;
+
+                countTable.Update(itemArray, weight);
+
+                for(int n = 0; n < size; n++)
+                {
+                    T[] subSequence = itemArray.Exclude(n, 1).ToArray();
+
+                    RecursiveDivider(subSequence, minSize, countTable, initialArraySize);
+                }
+            }
         }
     }
 }
