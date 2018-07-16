@@ -1,2 +1,2 @@
 # cs.SequencePredict
-Sequence prediction code in C#
+A rather loose conversion to C# of the Ted Gueniche's IPredict Java library.
