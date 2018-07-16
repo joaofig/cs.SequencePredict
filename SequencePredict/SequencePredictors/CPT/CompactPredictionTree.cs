@@ -7,9 +7,10 @@ namespace SequencePredictors.CPT
 {
     public class CompactPredictionTree<T> where T : IEquatable<T>
     {
+        private readonly InvertedIndex<T>    invertedIndex   = new InvertedIndex<T>();
+        private readonly LookupTable<T>      lookupTable     = new LookupTable<T>();
+
         private PredictionTree<T>   tree            = null;
-        private InvertedIndex<T>    invertedIndex   = new InvertedIndex<T>();
-        private LookupTable<T>      lookupTable     = new LookupTable<T>();
         private int                 sampleCount     = 0;
         private int                 splitLength     = 0;
         private int                 minRecursion    = 1;

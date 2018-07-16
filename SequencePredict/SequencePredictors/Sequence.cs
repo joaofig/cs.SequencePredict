@@ -7,7 +7,7 @@ namespace SequencePredictors
 {
     public class Sequence<T> : IEnumerable<T> where T : IEquatable<T>
     {
-        private List<T> list = new List<T>();
+        private readonly List<T> list;
         private readonly int id = 0;
 
         public Sequence(int id, IEnumerable<T> sequence)
